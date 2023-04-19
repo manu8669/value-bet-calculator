@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value Bet Calculator</title>
+    <style>
+        label {
+            display: inline-block;
+            width: 80px;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Value Bet Calculator</h1>
+    <div id="outcome-1">
+        <h2>1</h2>
+        <label for="probaPrev1">Proba:</label>
+        <input type="number" id="probaPrev1" step="0.01" min="0" max="1" oninput="calculateValueBet('1')">
+        <br>
+        <label for="cote1">Cote:</label>
+        <input type="number" id="cote1" step="0.01" min="1" oninput="calculateValueBet('1')">
+        <br>
+        <label for="value1">Value:</label>
+        <input type="number" id="value1" readonly>
+        <br>
+    </div>
+    <div id="outcome-X">
+        <h2>X</h2>
+        <label for="probaPrevX">Proba:</label>
+        <input type="number" id="probaPrevX" step="0.01" min="0" max="1" oninput="calculateValueBet('X')">
+        <br>
+        <label for="coteX">Cote:</label>
+        <input type="number" id="coteX" step="0.01" min="1" oninput="calculateValueBet('X')">
+        <br>
+        <label for="valueX">Value:</label>
+        <input type="number" id="valueX" readonly>
+        <br>
+    </div>
+    <div id="outcome-2">
+        <h2>2</h2>
+        <label for="probaPrev2">Proba:</label>
+        <input type="number" id="probaPrev2" step="0.01" min="0" max="1" oninput="calculateValueBet('2')">
+        <br>
+        <label for="cote2">Cote:</label>
+        <input type="number" id="cote2" step="0.01" min="1" oninput="calculateValueBet('2')">
+        <br>
+        <label for="value2">Value:</label>
+        <input type="number" id="value2" readonly>
+        <br>
+    </div>
+    <button onclick="cleanInputs()">Clean</button>
+    <button onclick="toggleDarkMode()">DarkMode</button>
+    
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+                function cleanInputs() {
+            document.getElementById("probaPrev1").value = "";
+            document.getElementById("cote1").value = "";
+            document.getElementById("value1").value = "";
+            document.getElementById("probaPrevX").value = "";
+            document.getElementById("coteX").value = "";
+            document.getElementById("valueX").value = "";
+            document.getElementById("probaPrev2").value = "";
+            document.getElementById("cote2").value = "";
+            document.getElementById("value2").value = "";
+        }
+
+        function calculateValueBet(outcome) {
+            const probaPrev = parseFloat(document.getElementById("probaPrev" + outcome).value);
+            const cote = parseFloat(document.getElementById("cote" + outcome).value);
+
+            if (isNaN(probaPrev) || isNaN(cote)) {
+                document.getElementById("value" + outcome).value = "";
+                return;
+            }
+
+            const probaImp = 1 / cote;
+            const value = (probaPrev - probaImp) * cote;
+
+            document.getElementById("value" + outcome).value = value.toFixed(2);
+        }
+    </script>
+</body>
+</html>
